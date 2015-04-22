@@ -30,6 +30,7 @@
   "devDependencies": {
     "gulp": "^3.8.7",
     "immutable": "3.7.2",
-    "gulp-babel": "5.1.0"
+    "gulp-babel": "5.1.0",
+    "lodash": "3.5.0"
   }
 }

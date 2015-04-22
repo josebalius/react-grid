@@ -11,7 +11,6 @@ gulp.task('babel', function() {
 });
 
 gulp.task('browserify', ['babel'], function() {
-    // Single entry point to browserify
     gulp.src('./lib/ReactGrid.js')
         .pipe(browserify({
             ignore: ['react']

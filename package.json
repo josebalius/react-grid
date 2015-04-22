@@ -2,7 +2,7 @@
   "name": "react-grid",
   "version": "0.1.0",
   "description": "A simple react data table grid. Based on jQuery datatables uses <tables>",
-  "main": "./dist/ReactGrid.js",
+  "main": "./lib/ReactGrid.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,8 +29,7 @@
   },
   "devDependencies": {
     "gulp": "^3.8.7",
-    "gulp-webpack": "1.4.0",
-    "babel-loader": "latest",
-    "immutable": "3.7.2"
+    "immutable": "3.7.2",
+    "gulp-babel": "5.1.0"
   }
 }

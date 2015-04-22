@@ -1,22 +1,26 @@
 var gulp = require('gulp');
-var webpack = require('gulp-webpack');
+var babel = require('gulp-babel');
+var browserify = require('gulp-browserify');
 
-gulp.task("webpack", function() {
-    return gulp.src('./src/ReactGrid.js')
-        .pipe(webpack({
-            output: {
-                // Make sure to use [name] or [id] in output.filename
-                //  when using multiple entry points
-                filename: "ReactGrid.js"
-            },
-            module: {
-                loaders: [
-                    { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader?stage=0"}
-                ]
-            },
-            watch: true
+gulp.task('babel', function() {
+    return gulp.src(['./src/**/*.js'])
+        .pipe(babel({
+            modules: 'common'
         }))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./lib/'));
 });
 
-gulp.task('default', ['webpack']);
+gulp.task('browserify', ['babel'], function() {
+    // Single entry point to browserify
+    gulp.src('./lib/ReactGrid.js')
+        .pipe(browserify({
+            ignore: ['react']
+        }))
+        .pipe(gulp.dest('./dist'))
+});
+
+gulp.task('watch', function() {
+    gulp.watch('./src/**/*.js', ['browserify']);
+});
+
+gulp.task('default', ['browserify', 'watch']);

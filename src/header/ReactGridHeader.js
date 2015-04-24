@@ -1,6 +1,8 @@
 import React from 'react/addons';
 import { tableStyle } from '../Styles';
-import Immutable from 'immutable';
+import _ from 'lodash';
+import ReactGridHeaderPerPage from './ReactGridHeaderPerPage';
+import ReactGridHeaderSearch from './ReactGridHeaderSearch';
 
 class ReactGridHeader extends React.Component {
     constructor(props) {
@@ -56,10 +58,25 @@ class ReactGridHeader extends React.Component {
             return React.addons.cloneWithProps(column, {key, header: true});
         });
 
-        let style = (this.state.scrollBarWidth > 0) ? Immutable.fromJS(tableStyle).set('width', `calc(100% - ${this.state.scrollBarWidth}px`).toObject() : tableStyle;
+        let style = tableStyle;
+
+        if(this.state.scrollBarWidth > 0) {
+            let clone = _.clone(tableStyle);
+            clone.width = `calc(100% - ${this.state.scrollBarWidth}px`;
+            style = clone;
+        }
+
         return (
             <div>
-                <div style={{overflow: 'auto'}}>
+                <div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <ReactGridHeaderPerPage {...this.props} />
+                        </div>
+                        <div className="col-md-6">
+                            <ReactGridHeaderSearch search={this.props.search} onSearchChange={this.props.onSearchChange} />
+                        </div>
+                    </div>
 
                 </div>
                 <div style={{background: '#F5F5F6'}}>

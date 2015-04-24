@@ -5,9 +5,13 @@ import ReactGridFooterPagination from './ReactGridFooterPagination';
 class ReactGridFooter extends React.Component {
     render() {
         return (
-            <div className="ngReactGridFooter">
-                <ReactGridFooterStatus />
-                <ReactGridFooterPagination />
+            <div className="row">
+                <div className="col-md-6">
+                    <ReactGridFooterStatus {...this.props} />
+                </div>
+                <div className="col-md-6">
+                    <ReactGridFooterPagination {...this.props} />
+                </div>
             </div>
         )
     }

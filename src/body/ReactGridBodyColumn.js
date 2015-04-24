@@ -2,53 +2,62 @@ import React from 'react/addons';
 import _ from 'lodash';
 
 class ReactGridBodyColumn extends React.Component {
+    static defaultProps = {
+        width: '10%',
+        row: {}
+    };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            cellStyle: {
+                width: props.width
+            }
+        };
+    }
+
     render() {
 
         let cell = '';
-
-        let cellStyle = {
-            width: this.props.width || '10%'
-        };
 
         if(this.props.header) {
 
             if(!this.props.label) {
 
                 console.warn(`A key is necessary for column: ${this.props.key}`);
-                cell = <th style={cellStyle} {...this.props}></th>;
+                cell = <th style={this.state.cellStyle} {...this.props}></th>;
 
             } else {
 
                 cell = (
-                    <th style={cellStyle} {...this.props}>{this.props.label}</th>
+                    <th style={this.state.cellStyle} {...this.props}>{this.props.label}</th>
                 )
 
             }
 
         } else {
 
-            let row = this.props.row || {};
-
             if(this.props.renderer) {
 
-                cell = this.props.renderer(this.props.field, row);
+                cell = this.props.renderer(this.props.field, this.props.row);
 
                 if(cell.props.style) {
-                    _.merge(cell.props.style, cellStyle);
+                    _.merge(this.state.cellStyle, cell.props.style);
                 } else {
-                    cell = React.addons.cloneWithProps(cell, {style: cellStyle});
+                    cell = React.addons.cloneWithProps(cell, {style: this.state.cellStyle});
                 }
 
             } else {
                 if(!this.props.field) {
 
                     console.warn(`A 'field' is necessary for column: ${this.props.label}`);
-                    cell = <td style={cellStyle} {...this.props}></td>;
+                    cell = <td style={this.state.cellStyle} {...this.props}></td>;
 
                 } else {
 
                     cell = (
-                        <td style={cellStyle} {...this.props}>{row[this.props.field]}</td>
+                        <td style={this.state.cellStyle} {...this.props}>{this.props.row[this.props.field]}</td>
                     )
 
                 }

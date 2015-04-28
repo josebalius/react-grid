@@ -5,7 +5,8 @@ var browserify = require('gulp-browserify');
 gulp.task('babel', function() {
     return gulp.src(['./src/**/*.js'])
         .pipe(babel({
-            modules: 'common'
+            modules: 'common',
+            stage: 0
         }))
         .pipe(gulp.dest('./lib/'));
 });

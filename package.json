@@ -28,9 +28,12 @@
     "react": "0.13.x"
   },
   "devDependencies": {
+    "browserify": "^9.0.8",
     "gulp": "^3.8.7",
-    "immutable": "3.7.2",
     "gulp-babel": "5.1.0",
-    "lodash": "3.5.0"
+    "immutable": "3.7.2",
+    "lodash": "3.5.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.0"
   }
 }

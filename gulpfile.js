@@ -1,6 +1,9 @@
 var gulp = require('gulp');
 var babel = require('gulp-babel');
-var browserify = require('gulp-browserify');
+var browserify = require('browserify');
+var watchify = require('watchify');
+var source = require('vinyl-source-stream');
+var _ = require('lodash');
 
 gulp.task('babel', function() {
     return gulp.src(['./src/**/*.js'])
@@ -11,16 +14,24 @@ gulp.task('babel', function() {
         .pipe(gulp.dest('./lib/'));
 });
 
-gulp.task('browserify', ['babel'], function() {
-    gulp.src('./lib/ReactGrid.js')
-        .pipe(browserify({
-            ignore: ['react']
-        }))
-        .pipe(gulp.dest('./dist'))
-});
+var customOpts = {
+    entries: ['./lib/ReactGrid.js'],
+    debug: true
+};
+var opts = _.assign({}, watchify.args, customOpts);
+var b = watchify(browserify(opts));
+
+gulp.task('browserify', ['babel'], bundle);
+b.on('update', bundle);
+
+function bundle() {
+    return b.bundle()
+    .pipe(source('ReactGrid.js'))
+    .pipe(gulp.dest('./dist'));
+}
 
 gulp.task('watch', function() {
-    gulp.watch('./src/**/*.js', ['browserify']);
+    gulp.watch('./src/**/*.js', ['babel']);
 });
 
 gulp.task('default', ['browserify', 'watch']);
